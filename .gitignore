@@ -42,3 +42,10 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# My Declarations
+
+/assets/jaxd.jpg
+/assets/bebebeticket.png
+.gitignore
+
