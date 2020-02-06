@@ -1,0 +1,17 @@
+.TicketFormDialog .mat-dialog-container{
+  height: 100%;
+}
+
+.ticketForm {
+  width: 100%; margin: auto;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+div .mat-dialog-container {
+  max-height: unset;
+  height: 100%;
+}
+

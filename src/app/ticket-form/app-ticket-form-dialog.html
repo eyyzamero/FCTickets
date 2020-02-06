@@ -1,0 +1,43 @@
+<div style="display: flex;align-content: center;align-items: center;height: 100%;" *ngIf="isLoading"><mat-spinner style="margin: auto"></mat-spinner></div>
+<h1 mat-dialog-title *ngIf="!isLoading"><b>{{ data.mode }} Ticket</b></h1>
+<div mat-dialog-content style="max-height: unset; height: 90%;" *ngIf="!isLoading">
+  <form [formGroup]="ticket" class="ticketForm">
+    <mat-form-field>
+      <mat-select placeholder="TT Category" name="category" formControlName="ticketCategory">
+        <mat-option value="IT">IT</mat-option>
+        <mat-option value="PROCESS" selected>PROCESS</mat-option>
+        <mat-option value="HR">HR</mat-option>
+        <mat-option value="ADMINISTRATION">ADMINISTRATION</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput name="title" placeholder="Title" formControlName="ticketTitle" #title>
+      <mat-error *ngIf="ticket.get('ticketTitle')?.invalid">Title does not match the requirements</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput name="location" placeholder="Units Location" formControlName="ticketLocation" #location>
+      <mat-error *ngIf="ticket.get('ticketLocation')?.invalid">Location does not match the requirements</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput name="code" placeholder="EAN / ASIN / TC" formControlName="ticketCode" #code>
+      <mat-error *ngIf="ticket.get('ticketCode')?.invalid">Unit identifier does not match the requirements</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="number" matInput name="quantity" placeholder="Quantity" formControlName="ticketQuantity" #quantity>
+      <mat-error *ngIf="ticket.get('ticketQuantity')?.invalid">Please provide valid data</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput name="assignedGroup" placeholder="Assign a group" formControlName="ticketAssignedGroup" #group>
+      <mat-error *ngIf="ticket.get('ticketAssignedGroup')?.invalid">Please provide valid data</mat-error>
+    </mat-form-field>
+    <h3>Describe problem in detail</h3>
+  </form>
+  <hr>
+  <ckeditor [editor]="Editor" [(ngModel)]="editorText"></ckeditor>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)=onTicketSubmit()>Submit</button>
+    <button mat-raised-button (click)="onCancel()">Cancel</button>
+  </div>
+</div>
+
+
