@@ -1,0 +1,123 @@
+<div fxLayout="column" *ngIf="isLoading" style="margin: 16px" class="content">
+  <div fxFlex="100%">
+    <div style="display: flex;align-content: center;align-items: center;height: 100%;"><mat-spinner style="margin: auto" [diameter]="35"></mat-spinner></div>
+  </div>
+</div>
+
+<div fxLayout.gt-md="row" fxLayout.lt-lg="column" *ngIf="!isLoading" style="margin-left: 8px">
+  <div fxFlex="70%" class="overview-tab">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon class="ticket-icon" color="primary">assignment</mat-icon>
+        </div>
+        <mat-card-title>[{{ TT.category}}] - {{ TT.title }}</mat-card-title>
+        <mat-card-subtitle>Severity: 5</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+    <mat-tab-group>
+      <mat-tab label="Overview">
+        <div style="margin-top: 20px">
+          <ckeditor [editor]="Editor"  data="{{ TT.content }}" disabled="true" (ready)="onReady($event)"></ckeditor>
+        </div>
+      </mat-tab>
+      <mat-tab label="Conversation">
+        <div style="margin-top: 20px">
+          <ckeditor [editor]="Editor" (ready)="onReady($event)" class="eee" [(ngModel)]="messageText"></ckeditor>
+          <button mat-raised-button color="primary" class="converation-send" (click)="newMessage(TT._id)">
+            <span>SEND</span>
+          </button>
+          <p class="conversation-info" *ngIf="MM.length === 0">No replies yet</p>
+          <mat-card *ngFor="let comment of MM">
+            <mat-card-header>
+              <img mat-card-avatar class="comment-image">
+              <mat-card-title>Andrzej Bronisławski</mat-card-title>
+              <mat-card-subtitle>09.02.2020 20:20</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <ckeditor [editor]="Editor" data="{{ comment.content }}" disabled="true" (ready)="onReady($event)" class="comment-editor"></ckeditor>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-stroked-button>
+                <mat-icon color="primary">thumb_up</mat-icon>
+                <span class="margin-like">{{ comment.likes }}</span>
+              </button>
+              <button mat-stroked-button>
+                <mat-icon color="warn">thumb_down</mat-icon>
+                <span class="margin-like">{{ comment.dislikes }}</span>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+          <!-- <mat-list class="app-class">
+            <mat-list-item *ngFor="let comment of MM" class="comment-item">
+              <img src="assets/jaxd.jpg" mat-list-icon>
+              <b mat-line style="color: red">Andrzej Bronisławski</b>
+              <p mat-line>09.09.2020 19:35 CET</p>
+              <div mat-line>
+
+              </div>
+            </mat-list-item>
+          </mat-list> -->
+        </div>
+      </mat-tab>
+      <mat-tab label="Logs"> </mat-tab>
+      <mat-tab label="Information">
+        <table>
+          <tr>
+            <th>Attribute</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>ID</td>
+            <td class="table-data-centered">{{ TT._id }}</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td class="table-data-centered">{{ TT.status === true ? 'ACTIVE' : 'CLOSED' }}</td>
+          </tr>
+          <tr>
+            <td>AssignedGroup</td>
+            <td class="table-data-centered">{{ TT.assignedGroup }}</td>
+          </tr>
+          <tr>
+            <td>EAN / ASIN / TC</td>
+            <td class="table-data-centered">{{ TT.code }}</td>
+          </tr>
+          <tr>
+            <td>Quantity</td>
+            <td class="table-data-centered">{{ TT.quantity }}</td>
+          </tr>
+          <tr>
+            <td>Location</td>
+            <td class="table-data-centered">{{ TT.location }}</td>
+          </tr>
+
+
+        </table>
+      </mat-tab>
+    </mat-tab-group>
+
+  </div>
+  <mat-card fxFlex="30%">
+    <mat-list>
+      <h3 mat-subheader>Ticket Settings</h3>
+      <mat-list-item>
+        <button mat-raised-button color="primary" class="settings-button" (click)="TicketEdit('ja', 'Update', TT._id)">
+          <mat-icon>create</mat-icon>
+          <span>UPDATE</span>
+        </button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-raised-button color="success" class="settings-button" (click)="CloseTicket(TT._id)">
+          <mat-icon style="color: green; font-weight: bold;">done</mat-icon>
+          <span>CLOSE</span>
+        </button>
+      </mat-list-item>
+      <mat-list-item>
+
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>
+
+

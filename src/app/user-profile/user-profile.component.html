@@ -1,0 +1,23 @@
+<div *ngIf="auth.loggedIn">
+  <p class="section-title-admin">LOGGED AS</p>
+  <mat-divider></mat-divider>
+  <mat-card class="user-card">
+    <mat-card-title></mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+    <img mat-card-image class="user-image" src="assets/jaxd.jpg" alt="">
+    <mat-card-content>
+      <p>BEEE</p>
+      <p class="user-rank">ADMIN</p>
+      <button mat-stroked-button color="primary" class="user-action-button">
+        <mat-icon>logout</mat-icon>
+        <span>LOG OUT</span>
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div>
+  <mat-card>
+    <button (click)="auth.login()">Log In</button>
+  </mat-card>
+</div>

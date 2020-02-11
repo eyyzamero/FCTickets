@@ -3,8 +3,10 @@ require('../DBmodels/ticket');
 const Ticket = mongoose.model('Ticket');
 
 exports.getTickets = (req, res, next) => {
-  const ticketQuery = Ticket.find();
-  ticketQuery.then(tickets => {
+  let ticketQuery = Ticket.find();
+  let numOfTickets;
+  req.query.pageSize !== undefined ? numOfTickets = +req.query.pageSize : numOfTickets = 0;
+  ticketQuery.limit(numOfTickets).then(tickets => {
     res.status(200).json(
       tickets
     )
@@ -16,6 +18,17 @@ exports.getTickets = (req, res, next) => {
   })
 }
 
+exports.getTicket = (req, res, next) => {
+  Ticket.findById(req.params._id).then(ticket => {
+    res.status(200).json(ticket);
+  }).catch(error => {
+    res.status(500).json({
+      message: "Fetching tickets failed!",
+      description: error
+    });
+  });
+};
+
 exports.newTicket = (req, res, next) => {
   const ticketData = {
     category: req.body.category,
@@ -24,9 +37,9 @@ exports.newTicket = (req, res, next) => {
     code: req.body.code,
     quantity: req.body.quantity,
     assignedGroup: req.body.assignedGroup,
-    content: req.body.content
+    content: req.body.content,
+    status: true
   };
-  console.log(ticketData);
   new Ticket(ticketData).save().then(data => {
     res.status(201).json({
       message: 'Ticket Creation Successful',
@@ -39,3 +52,38 @@ exports.newTicket = (req, res, next) => {
     });
   });
 };
+
+exports.updateTicket = (req, res, next) => {
+  const ticketData = {
+    _id: req.params._id,
+    category: req.body.category,
+    title: req.body.title,
+    location: req.body.location,
+    code: req.body.code,
+    quantity: req.body.quantity,
+    assignedGroup: req.body.assignedGroup,
+    content: req.body.content
+  };
+  Ticket.updateOne({_id: req.params._id}, ticketData).then(() => {
+    res.status(200).json({message: 'Update Successful!'});
+  }).catch(error => {
+    res.status(500).json({
+      message: 'Updating post failed!',
+      description: error
+    })
+  })
+}
+
+exports.closeTicket = (req, res, next) => {
+  const closingData = {
+    status: false
+  }
+  Ticket.updateOne({_id: req.params._id}, closingData ).then(() => {
+    res.status(200).json({message: 'Update Successful!'});
+  }).catch(error => {
+    res.status(500).json({
+      message: 'Unable to close this ticket!',
+      description: error
+    })
+  })
+}

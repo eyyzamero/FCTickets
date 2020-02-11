@@ -1,0 +1,100 @@
+mat-icon.ticket-icon {
+  font-weight: bold;
+  font-size: 50px;
+}
+
+mat-card-title, mat-card-subtitle {
+  margin-left: 16px;
+}
+
+mat-tab-group, .overview-tab {
+  background-color: #FFFFFF;
+}
+
+mat-card {
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 350px !important;
+}
+
+:host ::ng-deep .eee > .ck-editor__editable_inline {
+  min-height: 150px !important;
+  border: 1px solid black;
+}
+
+:host ::ng-deep .comment-editor > .ck-editor__editable_inline {
+  min-height: unset !important;
+  max-width: 96.5% !important;
+}
+
+:host ::ng-deep .comment-editor > .ck.ck-toolbar {
+  display: none;
+}
+
+table {
+  width: 95%;
+  margin: 20px 8px 0 8px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+}
+
+.table-data-centered {
+  text-align: center;
+}
+
+.settings-button{
+  width: 100% !important;
+  min-width: unset!important;
+}
+
+.settings-button mat-icon {
+  margin-right: 5px;
+}
+
+::ng-deep .mat-snack-bar-container{
+  color: #155724 !important;
+  font-weight: bold !important;
+  background-color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+}
+
+:host ::ng-deep .ck-toolbar {
+  width: 80%
+}
+
+.converation-send {
+  display: block;
+  margin: 16px auto;
+  width: 100px;
+}
+
+.conversation-info {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.comment-item {
+  margin-bottom: 32px;
+}
+
+.app-class .mat-list-item {
+  height: auto;
+}
+
+.comment-image {
+  background-image: url('http://localhost:4200/assets/jaxd.jpg');
+  background-size: cover;
+}
+
+.margin-like {
+  margin-left: 16px;
+}

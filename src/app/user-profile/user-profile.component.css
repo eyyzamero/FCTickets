@@ -1,0 +1,51 @@
+mat-divider {
+  margin: auto;
+  width: 90%;
+  margin-bottom: 20px;
+}
+
+.section-title-main {
+  text-align: center;
+  font-size: 18px;
+  color: #3f51b5;
+  font-weight: bold;
+}
+
+.section-title-admin {
+  margin-top: 60px;
+  text-align: center;
+  font-size: 18px;
+  color: #3f51b5;
+  font-weight: bold;
+}
+
+.user-card {
+  margin: 50px auto;
+  padding: 0;
+  max-width: 330px;
+  background-color: #F5F5F5;
+  box-shadow: none;
+}
+
+.user-image {
+  display: block;
+  border-radius: 50%;
+  width: 100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.user-rank {
+  color: red;
+}
+
+.user-action-button {
+  display: block;
+  margin: 50px auto;
+}
+
+.user-card mat-card-content p {
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
