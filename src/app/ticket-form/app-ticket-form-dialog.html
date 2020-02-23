@@ -1,5 +1,5 @@
 <div style="display: flex;align-content: center;align-items: center;height: 100%;" *ngIf="isLoading"><mat-spinner style="margin: auto"></mat-spinner></div>
-<h1 mat-dialog-title *ngIf="!isLoading"><b>{{ data.mode }} Ticket</b></h1>
+<h1 mat-dialog-title *ngIf="!isLoading"><b>{{ data.mode }} Ticket <i *ngIf="ticket_id !== undefined" style="margin-left: 16px">[ {{ ticket_id }}]</i></b></h1>
 <div mat-dialog-content style="max-height: unset; height: 90%;" *ngIf="!isLoading">
   <form [formGroup]="ticket" class="ticketForm">
     <mat-form-field>
@@ -33,7 +33,7 @@
     <h3>Describe problem in detail</h3>
   </form>
   <hr>
-  <ckeditor [editor]="Editor" [(ngModel)]="editorText"></ckeditor>
+  <ckeditor [editor]="Editor" [(ngModel)]="editorText" (ready)="onReady($event)"></ckeditor>
   <div mat-dialog-actions>
     <button mat-raised-button color="primary" (click)=onTicketSubmit()>Submit</button>
     <button mat-raised-button (click)="onCancel()">Cancel</button>

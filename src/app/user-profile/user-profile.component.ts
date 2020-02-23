@@ -13,6 +13,8 @@ export class UserProfileComponent implements OnInit {
   userData;
 
   ngOnInit() {
-
+    this.auth.userProfile$.subscribe((res) => {
+      this.userData = res;
+    })
   }
 }

@@ -1,12 +1,10 @@
-export class Message {
+export class Log {
   constructor(
     public _id: string,
     public ticket_id: string,
-    public createdBy: string,
+    public userID: string,
+    public log_type: string,
     public content: string,
-    public likes: number,
-    public dislikes: number,
-    public status: boolean,
     public creationDate: string
   ) {}
 }

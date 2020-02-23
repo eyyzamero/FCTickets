@@ -7,6 +7,7 @@ export class Ticket {
     public code: string,
     public quantity: number,
     public assignedGroup: string,
-    public content: string
+    public content: string,
+    public status: boolean
   ) {}
 }

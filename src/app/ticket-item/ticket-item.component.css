@@ -3,12 +3,14 @@ mat-icon.ticket-icon {
   font-size: 50px;
 }
 
-mat-card-title, mat-card-subtitle {
+mat-card-title,
+mat-card-subtitle {
   margin-left: 16px;
 }
 
-mat-tab-group, .overview-tab {
-  background-color: #FFFFFF;
+mat-tab-group,
+.overview-tab {
+  background-color: #ffffff;
 }
 
 mat-card {
@@ -38,12 +40,15 @@ table {
   margin: 20px 8px 0 8px;
 }
 
-table, th, td {
+table,
+th,
+td {
   border: 1px solid black;
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 10px;
 }
 
@@ -51,24 +56,24 @@ th, td {
   text-align: center;
 }
 
-.settings-button{
+.settings-button {
   width: 100% !important;
-  min-width: unset!important;
+  min-width: unset !important;
 }
 
 .settings-button mat-icon {
   margin-right: 5px;
 }
 
-::ng-deep .mat-snack-bar-container{
+::ng-deep .mat-snack-bar-container {
   color: #155724 !important;
   font-weight: bold !important;
-  background-color: #FFFFFF !important;
-  border-color: #FFFFFF !important;
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
 }
 
 :host ::ng-deep .ck-toolbar {
-  width: 80%
+  width: 80%;
 }
 
 .converation-send {
@@ -91,10 +96,19 @@ th, td {
 }
 
 .comment-image {
-  background-image: url('http://localhost:4200/assets/jaxd.jpg');
+  background-image: url("http://localhost:4200/assets/jaxd.jpg");
   background-size: cover;
 }
 
 .margin-like {
   margin-left: 16px;
+}
+
+.sev-input {
+  margin-top: 16px;
+  min-width: 100%;
+}
+
+.tt-settings-list-top-margin {
+  margin-top: 16px;
 }

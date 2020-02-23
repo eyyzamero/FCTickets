@@ -1,0 +1,28 @@
+mat-card {
+  margin: auto;
+  min-width: 250px;
+  width: 75%;
+}
+
+mat-form-field {
+  margin: 0 32px 0 32px;
+  width: calc(100% - 64px);
+}
+
+.icon-prefix {
+  margin-right: 8px;
+}
+
+.search-button {
+  margin-left: 32px;
+  display: block;
+  width: calc(100% - 64px);
+}
+
+.mat-drawer-container {
+  background-color: #f5f5f5;
+}
+
+:host ::ng-deep .comment-editor > .ck.ck-toolbar {
+  display: none;
+}

@@ -1,52 +1,74 @@
 <div fxLayout="column" *ngIf="isLoading" style="margin: 16px" class="content">
   <div fxFlex="100%">
-    <div style="display: flex;align-content: center;align-items: center;height: 100%;"><mat-spinner style="margin: auto" [diameter]="35"></mat-spinner></div>
+    <div
+      style="display: flex;align-content: center;align-items: center;height: 100%;"
+    >
+      <mat-spinner style="margin: auto" [diameter]="50"></mat-spinner>
+    </div>
   </div>
 </div>
 
-<div fxLayout.gt-md="row" fxLayout.lt-lg="column" *ngIf="!isLoading" style="margin-left: 8px">
+<div
+  fxLayout.gt-md="row"
+  fxLayout.lt-lg="column"
+  *ngIf="!isLoading"
+  style="margin-left: 8px"
+>
   <div fxFlex="70%" class="overview-tab">
     <mat-card>
       <mat-card-header>
         <div mat-card-avatar>
           <mat-icon class="ticket-icon" color="primary">assignment</mat-icon>
         </div>
-        <mat-card-title>[{{ TT.category}}] - {{ TT.title }}</mat-card-title>
+        <mat-card-title>[{{ TT.category }}] - {{ TT.title }}</mat-card-title>
         <mat-card-subtitle>Severity: 5</mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <mat-tab-group>
       <mat-tab label="Overview">
         <div style="margin-top: 20px">
-          <ckeditor [editor]="Editor"  data="{{ TT.content }}" disabled="true" (ready)="onReady($event)"></ckeditor>
+          <ckeditor
+            [editor]="Editor"
+            data="{{ TT.content }}"
+            disabled="true"
+            (ready)="onReady($event)"
+          ></ckeditor>
         </div>
       </mat-tab>
       <mat-tab label="Conversation">
         <div style="margin-top: 20px">
-          <ckeditor [editor]="Editor" (ready)="onReady($event)" class="eee" [(ngModel)]="messageText"></ckeditor>
-          <button mat-raised-button color="primary" class="converation-send" (click)="newMessage(TT._id)">
+          <ckeditor
+            [editor]="Editor"
+            (ready)="onReady($event)"
+            class="eee"
+            [(ngModel)]="messageText"
+          ></ckeditor>
+          <button
+            mat-raised-button
+            color="primary"
+            class="converation-send"
+            (click)="newMessage(TT._id)"
+          >
             <span>SEND</span>
           </button>
-          <p class="conversation-info" *ngIf="MM.length === 0">No replies yet</p>
+          <p class="conversation-info" *ngIf="MM.length === 0">
+            No replies yet
+          </p>
           <mat-card *ngFor="let comment of MM">
             <mat-card-header>
-              <img mat-card-avatar class="comment-image">
-              <mat-card-title>Andrzej Bronisławski</mat-card-title>
-              <mat-card-subtitle>09.02.2020 20:20</mat-card-subtitle>
+              <img mat-card-avatar [src]="userData.picture" />
+              <mat-card-title>{{ comment.createdBy }}</mat-card-title>
+              <mat-card-subtitle> {{ JustGiveDate() }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <ckeditor [editor]="Editor" data="{{ comment.content }}" disabled="true" (ready)="onReady($event)" class="comment-editor"></ckeditor>
+              <ckeditor
+                [editor]="Editor"
+                data="{{ comment.content }}"
+                disabled="true"
+                (ready)="onReady($event)"
+                class="comment-editor"
+              ></ckeditor>
             </mat-card-content>
-            <mat-card-actions>
-              <button mat-stroked-button>
-                <mat-icon color="primary">thumb_up</mat-icon>
-                <span class="margin-like">{{ comment.likes }}</span>
-              </button>
-              <button mat-stroked-button>
-                <mat-icon color="warn">thumb_down</mat-icon>
-                <span class="margin-like">{{ comment.dislikes }}</span>
-              </button>
-            </mat-card-actions>
           </mat-card>
           <!-- <mat-list class="app-class">
             <mat-list-item *ngFor="let comment of MM" class="comment-item">
@@ -60,7 +82,25 @@
           </mat-list> -->
         </div>
       </mat-tab>
-      <mat-tab label="Logs"> </mat-tab>
+      <mat-tab label="Logs">
+        <mat-list>
+          <h3 mat-subheader>Logged Event for this TT</h3>
+          <mat-list-item *ngFor="let log of LOG">
+            <mat-icon mat-list-icon>label</mat-icon>
+            <h4 mat-line>
+              <b>{{ log.content }}</b>
+            </h4>
+            <p mat-line>Type: {{ log.log_type }}</p>
+            <p mat-line>Created by: {{ log.ticket_id }}</p>
+            <p mat-line>
+              Date:
+              {{
+                DateConversion(log.creationDate) | date: "dd MM yyyy HH:mm:ss"
+              }}
+            </p>
+          </mat-list-item>
+        </mat-list>
+      </mat-tab>
       <mat-tab label="Information">
         <table>
           <tr>
@@ -73,7 +113,9 @@
           </tr>
           <tr>
             <td>Status</td>
-            <td class="table-data-centered">{{ TT.status === true ? 'ACTIVE' : 'CLOSED' }}</td>
+            <td class="table-data-centered">
+              {{ TT.status === true ? "ACTIVE" : "CLOSED" }}
+            </td>
           </tr>
           <tr>
             <td>AssignedGroup</td>
@@ -91,33 +133,69 @@
             <td>Location</td>
             <td class="table-data-centered">{{ TT.location }}</td>
           </tr>
-
-
         </table>
       </mat-tab>
     </mat-tab-group>
-
   </div>
   <mat-card fxFlex="30%">
     <mat-list>
       <h3 mat-subheader>Ticket Settings</h3>
       <mat-list-item>
-        <button mat-raised-button color="primary" class="settings-button" (click)="TicketEdit('ja', 'Update', TT._id)">
+        <button
+          mat-raised-button
+          color="primary"
+          class="settings-button"
+          (click)="TicketEdit('ja', 'Update', TT._id)"
+        >
           <mat-icon>create</mat-icon>
           <span>UPDATE</span>
         </button>
       </mat-list-item>
       <mat-list-item>
-        <button mat-raised-button color="success" class="settings-button" (click)="CloseTicket(TT._id)">
+        <button mat-raised-button color="primary" class="settings-button">
+          <mat-icon>notifications</mat-icon>
+          <span>SUBSCRIBE</span>
+        </button>
+      </mat-list-item>
+      <mat-list-item>
+        <button
+          mat-raised-button
+          color="success"
+          class="settings-button"
+          (click)="CloseTicket(TT._id)"
+          [disabled]="!TT.status"
+        >
           <mat-icon style="color: green; font-weight: bold;">done</mat-icon>
           <span>CLOSE</span>
         </button>
       </mat-list-item>
+      <mat-list-item class="tt-settings-list-top-margin">
+        <mat-form-field class="sev-input">
+          <mat-select placeholder="TT Severity">
+            <mat-option value="5">5 (Classic response time)</mat-option>
+            <mat-option value="4">4 (Response time up to 2 days)</mat-option>
+            <mat-option value="3">3 (Critical response needed)</mat-option>
+            <mat-option value="2">HPOE sev.2</mat-option>
+            <mat-option value="1">HPOE sev.1</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-list-item>
       <mat-list-item>
-
+        <button mat-raised-button color="primary" class="settings-button">
+          <mat-icon>update</mat-icon>
+          <span>UPDATE SEVERITY</span>
+        </button>
+      </mat-list-item>
+      <mat-list-item class="tt-settings-list-top-margin">
+        <img mat-list-icon [src]="userData.picture" />
+        <h5 mat-line>{{ userData.name }}</h5>
+        <p mat-line>TT Creator</p>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon>person</mat-icon>
+        <h5 mat-line>undefined</h5>
+        <p mat-line>Asignee</p>
       </mat-list-item>
     </mat-list>
   </mat-card>
 </div>
-
-

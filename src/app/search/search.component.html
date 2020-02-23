@@ -1,0 +1,74 @@
+<div fxLayout="column">
+  <div fxFlex.lt-lg="100" fxFlex.gt-md="65" style="margin: 8px">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Search TT's</mat-card-title>
+        <mat-card-subtitle>Select category and type query</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content fxLayout="column">
+        <mat-form-field fxFlex="100">
+          <mat-select placeholder="Pick Category" #category>
+            <mat-option value="TT_ID">Ticket ID</mat-option>
+            <mat-option value="USER_ID">User ID</mat-option>
+            <mat-option value="GROUP_ID">Group ID</mat-option>
+            <!-- <mat-option value="" -->
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="100">
+          <input matInput type="text" placeholder="Query" #query />
+          <mat-icon matSuffix color="primary" class="icon-prefix"
+            >search</mat-icon
+          >
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          class="search-button"
+          (click)="searchingQueryRedirect(category.value, query.value)"
+        >
+          Search
+        </button>
+
+        <div fxFlex="100" *ngIf="isLoading">
+          <div style="padding: 16px; text-align: center">
+            <mat-progress-spinner
+              mode="indeterminate"
+              style="display: block; margin: 100px auto 16px auto"
+            ></mat-progress-spinner>
+            <b>Loading...</b>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div
+    fxFlex="80"
+    *ngIf="!isLoading && categorySelected === 'TT_ID'"
+    style="margin-top: 32px"
+  >
+    <mat-card>
+      <mat-card-header>
+        <mat-icon mat-card-avatar>create</mat-icon>
+        <mat-card-title>[{{ TT._id }}] - {{ TT.title }}</mat-card-title>
+        <mat-card-subtitle>{{ TT.code }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <ckeditor
+            [editor]="Editor"
+            data="{{ TT.content }}"
+            disabled="true"
+            (ready)="onReady($event)"
+            class="comment-editor"
+          ></ckeditor>
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <a routerLink="/ticket/{{ TT._id }}">
+          <button mat-raised-button color="primary">NAVIGATE</button>
+        </a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

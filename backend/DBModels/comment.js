@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const CommentSchema = mongoose.Schema({
   ticket_id: {
@@ -26,9 +26,8 @@ const CommentSchema = mongoose.Schema({
     required: true
   },
   creation_date: {
-    type: Date,
-    default: Date.now
+    type: String
   }
-})
+});
 
-module.exports = mongoose.model('Comment', CommentSchema);
+module.exports = mongoose.model("Comment", CommentSchema);

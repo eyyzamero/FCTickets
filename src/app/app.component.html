@@ -1,73 +1,73 @@
 <ng-container>
   <mat-sidenav-container class="container">
     <!-- Left Sidenav -->
-    <mat-sidenav #sidenav mode="side" opened class="sidenav" [fixedInViewport]="true">
+    <mat-sidenav #sidenav mode="side" class="sidenav" [fixedInViewport]="true">
       <!-- LOGO -->
       <div class="logo_div">
-        <img src="assets/bebebeticket.png" width="180" height="80">
+        <img src="assets/mainlogo.png" width="150" height="40" />
       </div>
       <!-- Left Sidenav Items -->
       <mat-nav-list class="sidenav-items-list">
         <!-- Section Divider -->
         <p class="section-title-main">MAIN</p>
         <mat-divider></mat-divider>
-          <mat-list-item class="sidenav-item">
-            <mat-icon>dashboard</mat-icon>
-            <span>Dashboard</span>
-          </mat-list-item>
-          <mat-list-item class="sidenav-item" (click)="TicketDialogOpen('beeee', 'Create')">
-            <mat-icon>add</mat-icon>
-            <span>New Ticket</span>
-          </mat-list-item>
-          <mat-list-item class="sidenav-item">
-            <mat-icon>search</mat-icon>
-            <span>Search Tickets</span>
-          </mat-list-item>
-          <mat-list-item class="sidenav-item">
-            <mat-icon>settings</mat-icon>
-            <span>Settings</span>
-          </mat-list-item>
+        <mat-list-item class="sidenav-item" routerLink="/">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </mat-list-item>
+        <mat-list-item
+          class="sidenav-item"
+          (click)="TicketDialogOpen('beeee', 'Create')"
+        >
+          <mat-icon>add</mat-icon>
+          <span>New Ticket</span>
+        </mat-list-item>
+        <mat-list-item class="sidenav-item" routerLink="/search">
+          <mat-icon>search</mat-icon>
+          <span>Search Tickets</span>
+        </mat-list-item>
+        <mat-list-item class="sidenav-item">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </mat-list-item>
         <!-- Section Divider -->
         <p class="section-title-admin">ADMIN</p>
         <mat-divider></mat-divider>
-          <mat-list-item class="sidenav-item">
-            <mat-icon>account_tree</mat-icon>
-            <span>Accounts</span>
-          </mat-list-item>
-          <mat-list-item class="sidenav-item">
-            <mat-icon>delete</mat-icon>
-            <span>Deleting Tool</span>
-          </mat-list-item>
-          <mat-list-item class="sidenav-item">
-            <mat-icon>center_focus_strong</mat-icon>
-            <span>HPOE Assignment</span>
-          </mat-list-item>
+        <mat-list-item class="sidenav-item">
+          <mat-icon>account_tree</mat-icon>
+          <span>Accounts</span>
+        </mat-list-item>
+        <mat-list-item class="sidenav-item">
+          <mat-icon>delete</mat-icon>
+          <span>Deleting Tool</span>
+        </mat-list-item>
+        <mat-list-item class="sidenav-item">
+          <mat-icon>center_focus_strong</mat-icon>
+          <span>HPOE Assignment</span>
+        </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
     <!-- Right Sidenav -->
-    <mat-sidenav #rightSidenav mode="side" position="end" closed class="sidenav" [fixedInViewport]="true">
-      <p class="section-title-admin">LOGGED AS</p>
-      <mat-divider></mat-divider>
-      <mat-card class="user-card">
-        <mat-card-title></mat-card-title>
-        <mat-card-subtitle></mat-card-subtitle>
-        <img mat-card-image class="user-image" src="assets/jaxd.jpg" alt="">
-        <mat-card-content>
-          <p>Andrzej Bronisławski</p>
-          <p class="user-rank">ADMIN</p>
-          <button mat-stroked-button color="primary" class="user-action-button">
-            <mat-icon>logout</mat-icon>
-            <span>LOG OUT</span>
-          </button>
-        </mat-card-content>
-      </mat-card>
+    <mat-sidenav
+      #rightSidenav
+      mode="side"
+      position="end"
+      closed
+      class="sidenav"
+      [fixedInViewport]="true"
+    >
+      <app-user-profile></app-user-profile>
     </mat-sidenav>
     <!-- Centered Content -->
     <mat-sidenav-content>
-      <mat-toolbar *ngIf="!searchingMode">
+      <mat-toolbar *ngIf="!searchingMode" color="primary">
         <mat-toolbar-row>
           <span>
-            <button mat-button (click)="sidenav.toggle()" >
+            <button
+              mat-button
+              (click)="sidenav.toggle(); rightSidenav.close()"
+              [disabled]="!auth.loggedIn"
+            >
               <mat-icon class="toolbar-button-icons">menu</mat-icon>
             </button>
           </span>
@@ -77,15 +77,27 @@
               <mat-icon class="toolbar-button-icons">search</mat-icon>
             </button>
             <button mat-button>
-              <mat-icon class="toolbar-button-icons" matBadge="4" matBadgeColor="warn">notifications</mat-icon>
+              <mat-icon
+                class="toolbar-button-icons"
+                matBadge="4"
+                matBadgeColor="warn"
+                >notifications</mat-icon
+              >
             </button>
-            <button mat-button (click)="rightSidenav.toggle()">
+            <button
+              mat-button
+              (click)="rightSidenav.toggle(); sidenav.close()"
+              *ngIf="auth.loggedIn"
+            >
               <mat-icon class="toolbar-button-icons">account_circle</mat-icon>
+            </button>
+            <button mat-button (click)="auth.login()" *ngIf="!auth.loggedIn">
+              <mat-icon class="toolbar-button-icons">account_box</mat-icon>
             </button>
           </span>
         </mat-toolbar-row>
       </mat-toolbar>
-      <mat-toolbar *ngIf="searchingMode" class="search-toolbar">
+      <mat-toolbar *ngIf="searchingMode" class="search-toolbar" color="">
         <mat-toolbar-row class="search-toolbar-row">
           <span>
             <button mat-button (click)="searchingMode = !searchingMode">
@@ -93,9 +105,16 @@
             </button>
           </span>
           <span style="flex: 1 1 auto">
-            <mat-form-field class='search-field'>
-              <input matInput type="text" placeholder="Search" #searchInput>
-              <button mat-button *ngIf="searchInput.value" matSuffix mat-icon-button aria-label='Clear' (click)="searchInput.value='';">
+            <mat-form-field class="search-field">
+              <input matInput type="text" placeholder="Search" #searchInput />
+              <button
+                mat-button
+                *ngIf="searchInput.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="searchInput.value = ''"
+              >
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
@@ -106,5 +125,3 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 </ng-container>
-
-
