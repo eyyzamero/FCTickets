@@ -1,6 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const TicketSchema = mongoose.Schema({
+  severity: {
+    type: Number,
+    required: true
+  },
   category: {
     type: String,
     required: true
@@ -29,6 +33,18 @@ const TicketSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  userID: {
+    type: String,
+    required: true
+  },
+  asigneeID: {
+    type: String,
+    required: true
+  },
+  HPOE: {
+    type: Boolean,
+    required: true
+  },
   status: {
     type: Boolean,
     required: true
@@ -37,6 +53,6 @@ const TicketSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   }
-})
+});
 
-module.exports = mongoose.model('Ticket', TicketSchema);
+module.exports = mongoose.model("Ticket", TicketSchema);

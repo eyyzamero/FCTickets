@@ -169,32 +169,40 @@
           <span>CLOSE</span>
         </button>
       </mat-list-item>
-      <mat-list-item class="tt-settings-list-top-margin">
-        <mat-form-field class="sev-input">
-          <mat-select placeholder="TT Severity">
-            <mat-option value="5">5 (Classic response time)</mat-option>
-            <mat-option value="4">4 (Response time up to 2 days)</mat-option>
-            <mat-option value="3">3 (Critical response needed)</mat-option>
-            <mat-option value="2">HPOE sev.2</mat-option>
-            <mat-option value="1">HPOE sev.1</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-list-item>
-      <mat-list-item>
-        <button mat-raised-button color="primary" class="settings-button">
-          <mat-icon>update</mat-icon>
-          <span>UPDATE SEVERITY</span>
-        </button>
-      </mat-list-item>
-      <mat-list-item class="tt-settings-list-top-margin">
-        <img mat-list-icon [src]="userData.picture" />
-        <h5 mat-line>{{ userData.name }}</h5>
+      <mat-list-item
+        class="tt-settings-list-top-margin"
+        *ngIf="ttCreatorUserData"
+      >
+        <img mat-list-icon [src]="ttCreatorUserData.picture" />
+        <h5 mat-line>{{ ttCreatorUserData.name }}</h5>
         <p mat-line>TT Creator</p>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item *ngIf="!ttAsigneeUserData">
         <mat-icon mat-list-icon>person</mat-icon>
         <h5 mat-line>undefined</h5>
         <p mat-line>Asignee</p>
+      </mat-list-item>
+      <mat-list-item *ngIf="ttAsigneeUserData">
+        <img mat-list-icon [src]="ttAsigneeUserData.picture" />
+        <h5 mat-line>{{ ttAsigneeUserData.name }}</h5>
+        <p mat-line>Asignee</p>
+      </mat-list-item>
+      <mat-list-item
+        class="tt-settings-list-top-margin"
+        *ngIf="ttCreatorUserData"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          class="settings-button"
+          [disabled]="
+            userData.sub === ttCreatorUserData.userID ? 'true' : 'false'
+          "
+          *ngIf="ttCreatorUserData"
+        >
+          <mat-icon>assignment_ind</mat-icon>
+          <span>ASSIGN YOURSELF TO THIS TICKET</span>
+        </button>
       </mat-list-item>
     </mat-list>
   </mat-card>

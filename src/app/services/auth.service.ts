@@ -1,12 +1,20 @@
-import { Injectable } from '@angular/core';
-import createAuth0Client from '@auth0/auth0-spa-js';
-import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
-import { from, of, Observable, BehaviorSubject, combineLatest, throwError } from 'rxjs';
-import { tap, catchError, concatMap, shareReplay } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Injectable } from "@angular/core";
+import createAuth0Client from "@auth0/auth0-spa-js";
+import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
+import {
+  from,
+  of,
+  Observable,
+  BehaviorSubject,
+  combineLatest,
+  throwError
+} from "rxjs";
+import { tap, catchError, concatMap, shareReplay } from "rxjs/operators";
+import { Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AuthService {
   // Create an observable of Auth0 instance of client
@@ -15,7 +23,7 @@ export class AuthService {
       domain: "fctt.eu.auth0.com",
       client_id: "wricO5g23PargfHkEtRieEKAN3uN1zu1",
       redirect_uri: `${window.location.origin}`,
-      audience: 'https://fctt.eu.auth0.com/api/v2/'
+      audience: "https://fctt.eu.auth0.com/api/v2/"
     })
   ) as Observable<Auth0Client>).pipe(
     shareReplay(1), // Every subscription receives the same shared value
@@ -27,7 +35,7 @@ export class AuthService {
   // from: Convert that resulting promise into an observable
   isAuthenticated$ = this.auth0Client$.pipe(
     concatMap((client: Auth0Client) => from(client.isAuthenticated())),
-    tap(res => this.loggedIn = res)
+    tap(res => (this.loggedIn = res))
   );
   handleRedirectCallback$ = this.auth0Client$.pipe(
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
@@ -38,7 +46,7 @@ export class AuthService {
   // Create a local property for login status
   loggedIn: boolean = null;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private httpClient: HttpClient) {
     // On initial load, check authentication state with authorization server
     // Set up local auth streams if user is already authenticated
     this.localAuthSetup();
@@ -80,7 +88,7 @@ export class AuthService {
     checkAuth$.subscribe();
   }
 
-  login(redirectPath: string = '/') {
+  login(redirectPath: string = "/") {
     // A desired redirect path can be passed to login method
     // (e.g., from a route guard)
     // Ensure Auth0 client instance exists
@@ -96,20 +104,20 @@ export class AuthService {
   private handleAuthCallback() {
     // Call when app reloads after user logs in with Auth0
     const params = window.location.search;
-    if (params.includes('code=') && params.includes('state=')) {
+    if (params.includes("code=") && params.includes("state=")) {
       let targetRoute: string; // Path to redirect to after login processsed
       const authComplete$ = this.handleRedirectCallback$.pipe(
         // Have client, now call method to handle auth callback redirect
         tap(cbRes => {
           // Get and set target redirect route from callback results
-          targetRoute = cbRes.appState && cbRes.appState.target ? cbRes.appState.target : '/';
+          targetRoute =
+            cbRes.appState && cbRes.appState.target
+              ? cbRes.appState.target
+              : "/";
         }),
         concatMap(() => {
           // Redirect callback complete; get user and login status
-          return combineLatest([
-            this.getUser$(),
-            this.isAuthenticated$
-          ]);
+          return combineLatest([this.getUser$(), this.isAuthenticated$]);
         })
       );
       // Subscribe to authentication completion observable
@@ -130,5 +138,18 @@ export class AuthService {
         returnTo: `${window.location.origin}`
       });
     });
+  }
+
+  createLocalDBRecordForUser(userID: string, name: string, picture: string) {
+    let userData = {
+      userID: userID,
+      name: name,
+      picture: picture
+    };
+    return this.httpClient.post(`http://localhost:4201/api/user`, userData);
+  }
+
+  getUserData(userID: string) {
+    return this.httpClient.get(`http://localhost:4201/api/user/${userID}`);
   }
 }

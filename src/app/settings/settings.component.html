@@ -1,0 +1,28 @@
+<div fxLayout="column">
+  <div fxFlex.lt-lg="100" fxFlex.gt-md="65" style="margin: 8px">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Search TT's</mat-card-title>
+        <mat-card-subtitle>Select category and type query</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content fxLayout="column">
+        <mat-form-field fxFlex.gt-sm="75" fxFlex.sm="100">
+          <input
+            matInput
+            type="text"
+            #subGroup
+            placeholder="Write group that you want to subscribe to"
+          />
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          class="search-button"
+          (click)="updateSubscription(subGroup.value)"
+        >
+          Subscribe
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

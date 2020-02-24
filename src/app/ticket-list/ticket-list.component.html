@@ -1,4 +1,9 @@
-<div fxLayout="column" *ngIf="!auth.loggedIn" style="margin: 16px" class="content">
+<div
+  fxLayout="column"
+  *ngIf="!auth.loggedIn"
+  style="margin: 16px"
+  class="content"
+>
   <div fxFlex="100%">
     <mat-card>
       <mat-card-header>
@@ -24,30 +29,79 @@
 
 <div fxLayout="column" *ngIf="isLoading" style="margin: 16px" class="content">
   <div fxFlex="100%">
-    <div style="display: flex;align-content: center;align-items: center;height: 100%;">
+    <div
+      style="display: flex;align-content: center;align-items: center;height: 100%;"
+    >
       <mat-spinner style="margin: auto" [diameter]="35"></mat-spinner>
     </div>
   </div>
 </div>
 
-<div fxLayout.gt-md="row" fxLayout.lt-lg="column" *ngIf="!isLoading" style="margin: 16px">
- <mat-card class="HPOE" fxFlex="50%" *ngIf="auth.loggedIn">
+<div
+  fxLayout.gt-md="row"
+  fxLayout.lt-lg="column"
+  *ngIf="!isLoading"
+  style="margin: 16px"
+>
+  <mat-card fxFlex="100%" *ngIf="!isLoading && auth.loggedIn">
     <mat-list>
-      <h3 mat-subheader>High Priority Ongoing Events</h3>
-      <mat-list-item>
-        <mat-icon mat-list-icon color="warn">note</mat-icon>
-        <h4 mat-line>BBBBBBBB</h4>
-        <p mat-line> BEBEBEBEBE</p>
+      <h3 mat-subheader>
+        You are following this group: [{{ userSubscribedGroup.subbed_group }}]
+      </h3>
+      <mat-list-item
+        *ngFor="let ticket of ticketsArray"
+        [routerLink]="['/ticket', ticket._id]"
+        class="recent-tickets-link"
+        [style.display]="
+          ticket.assignedGroup === userSubscribedGroup.subbed_group
+            ? 'block'
+            : 'none'
+        "
+      >
+        <mat-icon mat-list-icon>note</mat-icon>
+        <h4 mat-line>[{{ ticket.category }}] {{ ticket.title }}</h4>
+        <p mat-line>{{ ticket.code }}</p>
       </mat-list-item>
     </mat-list>
   </mat-card>
-  <mat-card class="recent-tickets" fxFlex="50%" *ngIf="!isLoading && auth.loggedIn">
+</div>
+
+<div
+  fxLayout.gt-md="row"
+  fxLayout.lt-lg="column"
+  *ngIf="!isLoading"
+  style="margin: 16px"
+>
+  <mat-card class="HPOE" fxFlex="50%" *ngIf="auth.loggedIn">
+    <mat-list>
+      <h3 mat-subheader>High Priority Ongoing Events</h3>
+      <mat-list-item
+        *ngFor="let ticket of ticketsArray"
+        [routerLink]="['/ticket', ticket._id]"
+        class="recent-tickets-link"
+        [style.display]="ticket.severity < 3 ? 'block' : 'none'"
+      >
+        <mat-icon mat-list-icon color="warn">note</mat-icon>
+        <h4 mat-line>[{{ ticket.category }}] {{ ticket.title }}</h4>
+        <p mat-line>{{ ticket.code }}</p>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+  <mat-card
+    class="recent-tickets"
+    fxFlex="50%"
+    *ngIf="!isLoading && auth.loggedIn"
+  >
     <mat-list>
       <h3 mat-subheader>Recently Added Tickets</h3>
-      <mat-list-item *ngFor="let ticket of ticketsArray" [routerLink]="['/ticket', ticket._id]" class="recent-tickets-link">
+      <mat-list-item
+        *ngFor="let ticket of ticketsArray"
+        [routerLink]="['/ticket', ticket._id]"
+        class="recent-tickets-link"
+      >
         <mat-icon mat-list-icon>note</mat-icon>
-        <h4 mat-line>[{{ticket.category}}] {{ ticket.title }}</h4>
-        <p mat-line> {{ ticket.code }} </p>
+        <h4 mat-line>[{{ ticket.category }}] {{ ticket.title }}</h4>
+        <p mat-line>{{ ticket.code }}</p>
       </mat-list-item>
     </mat-list>
   </mat-card>

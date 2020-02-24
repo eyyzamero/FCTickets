@@ -26,24 +26,9 @@
           <mat-icon>search</mat-icon>
           <span>Search Tickets</span>
         </mat-list-item>
-        <mat-list-item class="sidenav-item">
+        <mat-list-item class="sidenav-item" routerLink="/settings">
           <mat-icon>settings</mat-icon>
           <span>Settings</span>
-        </mat-list-item>
-        <!-- Section Divider -->
-        <p class="section-title-admin">ADMIN</p>
-        <mat-divider></mat-divider>
-        <mat-list-item class="sidenav-item">
-          <mat-icon>account_tree</mat-icon>
-          <span>Accounts</span>
-        </mat-list-item>
-        <mat-list-item class="sidenav-item">
-          <mat-icon>delete</mat-icon>
-          <span>Deleting Tool</span>
-        </mat-list-item>
-        <mat-list-item class="sidenav-item">
-          <mat-icon>center_focus_strong</mat-icon>
-          <span>HPOE Assignment</span>
         </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
@@ -73,17 +58,6 @@
           </span>
           <span class="center-fill"></span>
           <span>
-            <button mat-button (click)="searchingMode = !searchingMode">
-              <mat-icon class="toolbar-button-icons">search</mat-icon>
-            </button>
-            <button mat-button>
-              <mat-icon
-                class="toolbar-button-icons"
-                matBadge="4"
-                matBadgeColor="warn"
-                >notifications</mat-icon
-              >
-            </button>
             <button
               mat-button
               (click)="rightSidenav.toggle(); sidenav.close()"
@@ -94,30 +68,6 @@
             <button mat-button (click)="auth.login()" *ngIf="!auth.loggedIn">
               <mat-icon class="toolbar-button-icons">account_box</mat-icon>
             </button>
-          </span>
-        </mat-toolbar-row>
-      </mat-toolbar>
-      <mat-toolbar *ngIf="searchingMode" class="search-toolbar" color="">
-        <mat-toolbar-row class="search-toolbar-row">
-          <span>
-            <button mat-button (click)="searchingMode = !searchingMode">
-              <mat-icon class="toolbar-button-icons">arrow_back_ios</mat-icon>
-            </button>
-          </span>
-          <span style="flex: 1 1 auto">
-            <mat-form-field class="search-field">
-              <input matInput type="text" placeholder="Search" #searchInput />
-              <button
-                mat-button
-                *ngIf="searchInput.value"
-                matSuffix
-                mat-icon-button
-                aria-label="Clear"
-                (click)="searchInput.value = ''"
-              >
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
           </span>
         </mat-toolbar-row>
       </mat-toolbar>

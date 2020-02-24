@@ -36,6 +36,7 @@ exports.getTicket = (req, res, next) => {
 
 exports.newTicket = (req, res, next) => {
   const ticketData = {
+    severity: req.body.severity,
     category: req.body.category,
     title: req.body.title,
     location: req.body.location,
@@ -43,7 +44,10 @@ exports.newTicket = (req, res, next) => {
     quantity: req.body.quantity,
     assignedGroup: req.body.assignedGroup,
     content: req.body.content,
-    status: true
+    userID: req.body.userID,
+    asigneeID: req.body.asigneeID,
+    HPOE: req.body.HPOE,
+    status: req.body.status
   };
   new Ticket(ticketData)
     .save()
@@ -64,13 +68,18 @@ exports.newTicket = (req, res, next) => {
 exports.updateTicket = (req, res, next) => {
   const ticketData = {
     _id: req.params._id,
+    severity: req.body.severity,
     category: req.body.category,
     title: req.body.title,
     location: req.body.location,
     code: req.body.code,
     quantity: req.body.quantity,
     assignedGroup: req.body.assignedGroup,
-    content: req.body.content
+    content: req.body.content,
+    userID: req.body.userID,
+    asigneeID: req.body.asigneeID,
+    HPOE: req.body.HPOE,
+    status: req.body.status
   };
   Ticket.updateOne({ _id: req.params._id }, ticketData)
     .then(() => {

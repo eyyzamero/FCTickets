@@ -32,6 +32,11 @@ export class TicketItemComponent implements OnInit, OnDestroy {
       );
   }
 
+  ttCreatorUserDataSub: Subscription;
+  ttAsigneeUserDataSub: Subscription;
+  ttCreatorUserData;
+  ttAsigneeUserData;
+
   // Conversations declarations
   public messageText = "";
   MM: Message[] = [];
@@ -58,30 +63,32 @@ export class TicketItemComponent implements OnInit, OnDestroy {
       if (paramMap.has("id")) {
         this._ticketService.getTicket(paramMap.get("id")).subscribe(resData => {
           this.TT = resData;
+          this.commentsSubscription = this._conversationsService.Messages.subscribe(
+            comments => {
+              this.MM = comments;
+            }
+          );
+          // Conversation Setup
+          this._conversationsService
+            .getMessages(paramMap.get("id"))
+            .subscribe(() => {
+              this.authService.userProfile$.subscribe(res => {
+                this.userData = res;
+              });
+            });
+          // Logs Setup
+          this.logSubscription = this.logService.Logs.subscribe(data => {
+            this.LOG = data;
+          });
+          this.logService.getLogs(paramMap.get("id")).subscribe(() => {});
+          this.ttCreatorUserDataSub = this.authService
+            .getUserData(this.TT.userID)
+            .subscribe(ttCreator => {
+              this.ttCreatorUserData = ttCreator;
+              this.isLoading = false;
+            });
         });
       }
-      this.commentsSubscription = this._conversationsService.Messages.subscribe(
-        comments => {
-          this.MM = comments;
-        }
-      );
-      // Conversation Setup
-      this._conversationsService
-        .getMessages(paramMap.get("id"))
-        .subscribe(() => {
-          this.authService.userProfile$.subscribe(res => {
-            this.userData = res;
-            console.log(this.MM);
-          });
-        });
-      // Logs Setup
-      this.logSubscription = this.logService.Logs.subscribe(data => {
-        this.LOG = data;
-        console.log(this.LOG);
-      });
-      this.logService.getLogs(paramMap.get("id")).subscribe(() => {
-        this.isLoading = false;
-      });
     });
   }
 
@@ -95,10 +102,11 @@ export class TicketItemComponent implements OnInit, OnDestroy {
   }
 
   CloseTicket(ticketId: string) {
-    this._ticketService.closeTicket(ticketId).subscribe(x => {
-      console.log(x);
-      this.openSnackBar("Ticket Successfully Closed!");
-    });
+    this._ticketService
+      .closeTicket(ticketId, this.userData.sub)
+      .subscribe(x => {
+        this.openSnackBar("Ticket Successfully Closed!");
+      });
   }
 
   openSnackBar(message: string) {
@@ -122,7 +130,6 @@ export class TicketItemComponent implements OnInit, OnDestroy {
       });
       this.messageText = "";
     } else {
-      console.log("Cannot submit empty message");
     }
   }
 
@@ -139,5 +146,7 @@ export class TicketItemComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.commentsSubscription.unsubscribe();
     this.logSubscription.unsubscribe();
+    this.ttCreatorUserDataSub.unsubscribe();
+    // this.ttAsigneeUserDataSub.unsubscribe();
   }
 }

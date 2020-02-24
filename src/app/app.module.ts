@@ -35,6 +35,7 @@ import { AuthService } from "./services/auth.service";
 import { LogsService } from "./services/logs.service";
 import { SearchComponent } from "./search/search.component";
 import { SearchService } from "./search/search.service";
+import { SettingsComponent } from "./settings/settings.component";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { SearchService } from "./search/search.service";
     TicketListComponent,
     TicketItemComponent,
     UserProfileComponent,
-    SearchComponent
+    SearchComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

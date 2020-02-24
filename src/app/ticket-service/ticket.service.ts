@@ -21,7 +21,6 @@ export class TicketService {
   ) {}
 
   getTickets(numOfTickets?: number) {
-    console.log(numOfTickets);
     let queryParams;
     numOfTickets === undefined
       ? (queryParams = undefined)
@@ -51,6 +50,7 @@ export class TicketService {
       .post<{ message: string; ticket_id: string }>(
         "http://localhost:4201/api/tickets/new",
         {
+          severity: data.severity,
           category: data.category,
           title: data.title,
           location: data.location,
@@ -58,15 +58,18 @@ export class TicketService {
           quantity: data.quantity,
           assignedGroup: data.assignedGroup,
           content: data.content,
+          userID: data.userID,
+          asigneeID: data.asigneeID,
+          HPOE: data.HPOE,
           status: true
         }
       )
       .subscribe(resData => {
         // TODO create some kind of informative dialog. For now log
-        console.log("[ " + resData.ticket_id + " ] - " + resData.message);
 
         const newTicket = new Ticket(
           resData.ticket_id,
+          data.severity,
           data.category,
           data.title,
           data.location,
@@ -74,7 +77,10 @@ export class TicketService {
           data.quantity,
           data.assignedGroup,
           data.content,
-          true
+          data.userID,
+          data.asigneeID,
+          data.HPOE,
+          data.status
         );
 
         // Inform subscribers about changes in tickets array
@@ -82,7 +88,7 @@ export class TicketService {
         this.logService.newLog({
           _id: null,
           ticket_id: resData.ticket_id,
-          userID: data.code,
+          userID: data.userID,
           log_type: "TT_CREATE",
           content: `TT ${resData.ticket_id} created`,
           creationDate: Date.now().toString()
@@ -93,7 +99,8 @@ export class TicketService {
   updateTicket(ticketId: string, data: Ticket) {
     return this.httpClient
       .put(`http://localhost:4201/api/tickets/${ticketId}`, {
-        id: ticketId,
+        _id: ticketId,
+        severity: data.severity,
         category: data.category,
         title: data.title,
         location: data.location,
@@ -101,6 +108,9 @@ export class TicketService {
         quantity: data.quantity,
         assignedGroup: data.assignedGroup,
         content: data.content,
+        userID: data.userID,
+        asigneeID: data.asigneeID,
+        HPOE: data.HPOE,
         status: data.status
       })
       .pipe(
@@ -112,6 +122,7 @@ export class TicketService {
         tap(() => {
           const ticketData = new Ticket(
             ticketId,
+            data.severity,
             data.category,
             data.title,
             data.location,
@@ -119,18 +130,30 @@ export class TicketService {
             data.quantity,
             data.assignedGroup,
             data.content,
+            data.userID,
+            data.asigneeID,
+            data.HPOE,
             data.status
           );
           this._ticketsArray.next(this._ticketsArray.value.concat(ticketData));
+
+          this.logService.newLog({
+            _id: null,
+            ticket_id: ticketId,
+            userID: data.userID,
+            log_type: "TT_UPDATE",
+            content: `TT ${ticketId} updated`,
+            creationDate: Date.now().toString()
+          });
         })
       );
   }
 
-  closeTicket(ticketId: string) {
+  closeTicket(ticketId: string, userID: string) {
     this.logService.newLog({
       _id: null,
       ticket_id: ticketId,
-      userID: "beee",
+      userID: userID,
       log_type: "TT_CLOSED",
       content: `TT ${ticketId} closed`,
       creationDate: Date.now().toString()

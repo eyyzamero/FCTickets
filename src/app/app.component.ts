@@ -40,7 +40,13 @@ export class NewTicketDialogComponent {
   isLoading = true;
   mode = "Create";
   ticket: FormGroup;
-  status;
+
+  userData;
+  edittedTTuserID;
+  edittedTTasigneeID;
+  edittedTTHPOE;
+  edittedTTStatus;
+
   ticket_id = undefined;
   public editorText = "";
   public Editor = DecoupledEditor;
@@ -56,7 +62,8 @@ export class NewTicketDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<NewTicketDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data,
-    private _ticketService: TicketService
+    private _ticketService: TicketService,
+    private authService: AuthService
   ) {}
 
   onCancel(): void {
@@ -64,7 +71,14 @@ export class NewTicketDialogComponent {
   }
 
   ngOnInit() {
+    this.authService.userProfile$.subscribe(data => {
+      this.userData = data;
+    });
+
     this.ticket = new FormGroup({
+      ticketSeverity: new FormControl(null, {
+        validators: [Validators.min(1), Validators.max(5)]
+      }),
       ticketCategory: new FormControl(null, {
         validators: [Validators.required]
       }),
@@ -92,6 +106,7 @@ export class NewTicketDialogComponent {
       this._ticketService.getTicket(this.data.ticket_id).subscribe(resData => {
         ticketData = resData;
         this.ticket.setValue({
+          ticketSeverity: ticketData.severity,
           ticketCategory: ticketData.category,
           ticketTitle: ticketData.title,
           ticketLocation: ticketData.location,
@@ -100,14 +115,15 @@ export class NewTicketDialogComponent {
           ticketAssignedGroup: ticketData.assignedGroup
         });
         this.editorText = ticketData.content;
-        this.status = ticketData.status;
+        this.edittedTTuserID = ticketData.userID;
+        this.edittedTTasigneeID = ticketData.asigneeID;
+        this.edittedTTHPOE = ticketData.HPOE;
+        this.edittedTTStatus = ticketData.status;
         this.isLoading = false;
       });
     }
     this.isLoading = false;
   }
-
-  onTicketClose() {}
 
   onTicketSubmit() {
     if (this.ticket.invalid) {
@@ -116,6 +132,7 @@ export class NewTicketDialogComponent {
     if (this.mode === "Create") {
       this._ticketService.newTicket({
         _id: null,
+        severity: this.ticket.value.ticketSeverity,
         category: this.ticket.value.ticketCategory,
         title: this.ticket.value.ticketTitle,
         location: this.ticket.value.ticketLocation,
@@ -123,6 +140,9 @@ export class NewTicketDialogComponent {
         quantity: this.ticket.value.ticketQuantity,
         assignedGroup: this.ticket.value.ticketAssignedGroup,
         content: this.editorText,
+        userID: this.userData.sub,
+        asigneeID: "undefined",
+        HPOE: false,
         status: true
       });
       this.ticket.reset();
@@ -130,6 +150,7 @@ export class NewTicketDialogComponent {
     } else if (this.mode === "Update") {
       const ticketData = {
         _id: this.data.ticket_id,
+        severity: this.ticket.value.ticketSeverity,
         category: this.ticket.value.ticketCategory,
         title: this.ticket.value.ticketTitle,
         location: this.ticket.value.ticketLocation,
@@ -137,7 +158,10 @@ export class NewTicketDialogComponent {
         quantity: this.ticket.value.ticketQuantity,
         assignedGroup: this.ticket.value.ticketAssignedGroup,
         content: this.editorText,
-        status: true
+        userID: this.edittedTTuserID,
+        asigneeID: this.edittedTTasigneeID,
+        HPOE: this.edittedTTHPOE,
+        status: this.edittedTTStatus
       };
       this._ticketService
         .updateTicket(this.data.ticket_id, ticketData)

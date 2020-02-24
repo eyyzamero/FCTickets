@@ -7,6 +7,8 @@ const TicketRoutes = require("./routes/tickets");
 const CommentRoutes = require("./routes/comments");
 const LogsRoutes = require("./routes/logs");
 const SearchRoutes = require("./routes/search");
+const UserRoutes = require("./routes/user");
+const SubRoutes = require("./routes/sub");
 
 const app = express();
 
@@ -40,5 +42,7 @@ app.use("/api/tickets", TicketRoutes);
 app.use("/api/comments", CommentRoutes);
 app.use("/api/logs", LogsRoutes);
 app.use("/api/search", SearchRoutes);
+app.use("/api/user", UserRoutes);
+app.use("/api/sub", SubRoutes);
 
 module.exports = app;
