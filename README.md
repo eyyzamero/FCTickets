@@ -9,17 +9,9 @@ Technologie użyte:
 
 ## Zamysł aplikacji
 
-Aplikacja służy to tworzenia tzw. Ticketów (TT). Tickety opisują jakiś problem i zadaniem obserwatorów jest ten problem zażegnać. W zależności od powagi problemu Tickety są wyświetlane inaczej. Przejrzyste UI sprawia, że nawigacja po aplikacji nie jest skomplikowana.
-Można się zalogować za pomocą Facebooka / Google. Jest to projekt pokazowany, zdecydowanie więcej nakładu pracy byłoby potrzebne, jeżeli chcielibyśmy dostosować aplikację do potrzeb jakiejś konkretnej organizacji.
+Apliackja stworzona w procesie nauki technologii Angular w 2020r. Aplikacja służy to tworzenia tzw. Ticketów (TT). Projekt oferuje przejrzysty interfejs dla użytkownika dzięki któremu możemy z łatwością zgłaszać problemy.
 
-# Aplikacja jest cały czas rozbudowywana
-
-Oto co zostało jeszcze do wprowadzenia: 
-- [ ] Zabezpieczyć ścieżki w backendzie
-- [ ] Zaimplementować nowe funkcje ttakie jak: Powiadomienia, Panel Administracyjny i kompleksową walidację danych wejściowych
-- [ ] Napisać testy e2e
-- [ ] Dokończyć sekcję wyszukiwania ticketów tak, aby dało się wyszukać kilka naraz.
-- [ ] Zaimplentować autoryzację na podstawie poszczególnych ról
+Do aplikacji można się zalogować za pomocą Facebooka / Google. 
 
 ## Screenshoty z appki
 
