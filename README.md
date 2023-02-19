@@ -1,28 +1,21 @@
 # FCTickets
 
-Technologie użyte:
+Aplikacja oparta na technologiach Angular i Node.JS to system ticketowy, który umożliwia użytkownikom zgłaszanie problemów oraz monitorowanie ich rozwiązania. Dzięki intuicyjnemu interfejsowi użytkownicy mogą łatwo tworzyć nowe zgłoszenia, dodawać komentarze i załączniki, a także śledzić postęp prac nad ich rozwiązaniem. Aplikacja umożliwia również zdefiniowanie priorytetów problemów oraz przypisanie ich do odpowiednich zespołów lub osób, co pozwala na szybsze i bardziej efektywne ich rozwiązywanie. Dzięki temu systemowi użytkownicy mogą łatwo i skutecznie komunikować się z zespołem wsparcia technicznego.
+
+## Technologie użyte:
 - Angular v7.2.0
 - Angular Material
 - Auth0
 - Node.js (backend)
 - MongoDB
 
-## Zamysł aplikacji
-
-Apliackja stworzona w procesie nauki technologii Angular w 2020r. Aplikacja służy to tworzenia tzw. Ticketów (TT). Projekt oferuje przejrzysty interfejs dla użytkownika dzięki któremu możemy z łatwością zgłaszać problemy.
-
-Do aplikacji można się zalogować za pomocą Facebooka / Google. 
-
 ## Screenshoty z appki
 
-Panel Administracyjny        |  Przegląd TT          
-:-------------------------:|:-------------------------:
-<img src="https://user-images.githubusercontent.com/59890819/75202719-6de48a00-576c-11ea-83b4-a35249c75252.PNG" width="200" alt=""> | <img src="https://user-images.githubusercontent.com/59890819/75202753-8e144900-576c-11ea-9c17-2189b723540e.PNG" width="200" alt=""> 
-
-Tworzenie / Modyfikacja TT       |  Zapisywanie modyfikacji w TT         
-:-------------------------:|:-------------------------:
-<img src="https://user-images.githubusercontent.com/59890819/75202805-b8660680-576c-11ea-9763-29444176edca.PNG" width="200" alt=""> | <img src="https://user-images.githubusercontent.com/59890819/75202829-cae04000-576c-11ea-9e88-01bb713e7e3c.PNG" width="200" alt=""> 
-
-Wyszukiwanie       |  Panel boczny z profilem        
-:-------------------------:|:-------------------------:
-<img src="https://user-images.githubusercontent.com/59890819/75202855-ddf31000-576c-11ea-9e75-a54e32d41532.PNG" width="200" alt=""> | <img src="https://user-images.githubusercontent.com/59890819/75202875-ef3c1c80-576c-11ea-86b3-5615e139c692.PNG" width="200" alt=""> 
+| Screenshot | Opis |
+| :---:       | :---: |
+| <img src="https://user-images.githubusercontent.com/88888347/219945453-4c302be5-46c8-4493-9a4c-f433bda62ae7.png" width="200"> | Panel Administracyjny  |
+| <img src="https://user-images.githubusercontent.com/88888347/219945459-ef87fed2-f75f-4c8c-9a44-60ae16a40ee3.png" width="200"> | Przegląd zgłoszenia  |
+| <img src="https://user-images.githubusercontent.com/88888347/219945470-0d128e11-7583-4e63-a971-84b742fa5958.png" width="200"> | Tworzenie / Modyfikacja zgłoszenia   |
+| <img src="https://user-images.githubusercontent.com/88888347/219945491-16717bd6-6fe0-4748-9b11-bb58d486f179.png" width="200"> | Zapisywanie modyfikacji w zgłoszenia |
+| <img src="https://user-images.githubusercontent.com/88888347/219945511-00b96f8d-700b-43fb-97c4-84fbd9e513e3.png" width="200"> | Wyszukiwanie |
+| <img src="https://user-images.githubusercontent.com/88888347/219945523-c48f7f9d-fbc7-4442-b7b4-c18cc02f26f2.png" width="200"> | Panel boczny z profilem |
